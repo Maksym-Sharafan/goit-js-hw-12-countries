@@ -1,0 +1,31 @@
+body {
+  background-color: lemonchiffon;
+}
+
+.container {
+  padding-top: 20px;
+  margin-left: 20px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.country-title {
+  text-align: center;
+}
+
+.country-card {
+  display: flex;
+  justify-content: center;
+}
+
+.country-flag {
+  max-width: 600px;
+}
+
+.country-information {
+  margin-right: 50px;
+}
