@@ -9,57 +9,43 @@ import '@pnotify/core/dist/BrightTheme.css';
 
 
 const input = document.querySelector('.input-js');
-const wrapperCountries =document.querySelector('.wrapper-for-countries')
+const wrapperCountries = document.querySelector('.wrapper-for-countries')
 
 input.addEventListener('input', debounce(takeValueOnInput, 500));
 
 function takeValueOnInput(e) {
     clearContainer();
-    let inputValue = e.target.value;
+    let inputValue = e.target.value.trim();
 
-    if (!input.value || input.value ===' ') {
-        return;
-    };
-    
+    if (!input.value || input.value === ' ') return;
+
     fetchCountry(inputValue).then(countries => {
 
-        if (/s^/) {
+        if (countries.length > 10) {
             error({
-                    text: 'Remove the space at the beginning of the string!',
-                    mode: 'light',
-                    shadow: true,
-                    closer: true,
-                    sticker: false,
-                    hide: true,
-                    delay: 2000,
-                });
+                text: 'Too many matches found. Please enter a more specific query!',
+                mode: 'light',
+                shadow: true,
+                closer: true,
+                sticker: false,
+                hide: true,
+                delay: 2000,
+            });
+            return;
         }
 
-        if (countries.length > 10) {
-             error({
-                    text: 'Too many matches found. Please enter a more specific query!',
-                    mode: 'light',
-                    shadow: true,
-                    closer: true,
-                    sticker: false,
-                    hide: true,
-                    delay: 2000,
-                });
-                return;
+        if (countries.length >= 2 && countries.length <= 10) {
+            renderCountryList(countries);
         }
-        
-            if (countries.length >=2 && countries.length <= 10) {
-                renderCountryList(countries);
-            }
-            if (countries.length === 1) {
-                renderCountryCard(countries);
-                clearInput();
-            }
-        })
+        if (countries.length === 1) {
+            renderCountryCard(countries);
+            clearInput();
+        }
+    })
         .catch(showFetchError);
 };
 
-function renderCountryList (countries) {
+function renderCountryList(countries) {
     const template = countryListTemplate(countries);
     wrapperCountries.innerHTML = template;
 };
@@ -67,7 +53,7 @@ function renderCountryList (countries) {
 function renderCountryCard(countryName) {
     const templateCard = countryCardTemplate(countryName);
     wrapperCountries.innerHTML = templateCard;
- };
+};
 
 function clearContainer() {
     wrapperCountries.innerHTML = '';
