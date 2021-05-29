@@ -17,7 +17,7 @@ function takeValueOnInput(e) {
     clearContainer();
     let inputValue = e.target.value.trim();
 
-    if (!input.value || input.value === ' ') return;
+    if (input.length < 1) return;
 
     fetchCountry(inputValue).then(countries => {
 
